@@ -4,11 +4,20 @@ import { APP_CONFIG } from '@/config/app.config';
 export class DateUtils {
   /**
    * Get minimum datetime string for input (current time + minimum minutes)
+   * Handles timezone properly for datetime-local inputs
    */
   static getMinDateTime(): string {
     const now = new Date();
     now.setMinutes(now.getMinutes() + APP_CONFIG.post.minScheduleMinutes);
-    return format(now, APP_CONFIG.dateFormats.input);
+
+    // Ensure we get local timezone for datetime-local input
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
   /**

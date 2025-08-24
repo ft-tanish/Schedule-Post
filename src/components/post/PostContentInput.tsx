@@ -1,6 +1,5 @@
 import React, { memo, useCallback } from 'react';
-import Textarea from '@/components/ui/Textarea';
-import CharacterCounter from './CharacterCounter';
+import { TextField } from '@mui/material';
 import { APP_CONFIG } from '@/config/app.config';
 
 interface PostContentInputProps {
@@ -21,16 +20,25 @@ const PostContentInput = memo<PostContentInputProps>(
 
     return (
       <div className='flex-1'>
-        <Textarea
+        <TextField
           label={APP_CONFIG.content.labels.postContent}
           value={value}
           onChange={handleChange}
           placeholder={APP_CONFIG.content.placeholders.postContent}
-          maxLength={APP_CONFIG.post.maxLength}
-          showCharCount={true}
-          error={error}
+          inputProps={{
+            maxLength: APP_CONFIG.post.maxLength,
+          }}
+          error={!!error}
+          helperText={
+            error || `${value.length}/${APP_CONFIG.post.maxLength} characters`
+          }
           disabled={disabled}
           required
+          fullWidth
+          multiline
+          rows={4}
+          variant='outlined'
+          size='medium'
         />
       </div>
     );

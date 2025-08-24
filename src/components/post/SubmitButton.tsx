@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Send } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import { Button, CircularProgress } from '@mui/material';
 import { APP_CONFIG } from '@/config/app.config';
 
 interface SubmitButtonProps {
@@ -16,13 +16,23 @@ const SubmitButton = memo<SubmitButtonProps>(
       <Button
         type='submit'
         disabled={!isValid || isSubmitting || disabled}
-        loading={isSubmitting}
-        icon={!isSubmitting && <Send className='w-4 h-4' />}
         onClick={onClick}
+        variant='contained'
+        color='primary'
+        size='large'
+        fullWidth
+        startIcon={
+          !isSubmitting ? <Send style={{ fontSize: '1rem' }} /> : undefined
+        }
       >
-        {isSubmitting
-          ? APP_CONFIG.content.labels.submitting
-          : APP_CONFIG.content.labels.submitButton}
+        {isSubmitting ? (
+          <>
+            <CircularProgress size={16} style={{ marginRight: 8 }} />
+            {APP_CONFIG.content.labels.submitting}
+          </>
+        ) : (
+          APP_CONFIG.content.labels.submitButton
+        )}
       </Button>
     );
   }

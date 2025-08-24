@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { Clock } from 'lucide-react';
-import Input from '@/components/ui/Input';
+import { TextField, InputAdornment } from '@mui/material';
 import { DateUtils } from '@/utils/date.utils';
 import { APP_CONFIG } from '@/config/app.config';
 
@@ -21,16 +21,29 @@ const ScheduleTimeInput = memo<ScheduleTimeInputProps>(
     );
 
     return (
-      <Input
+      <TextField
         type='datetime-local'
         label={APP_CONFIG.content.labels.scheduleTime}
-        icon={<Clock className='w-4 h-4' />}
         value={value}
         onChange={handleChange}
-        min={DateUtils.getMinDateTime()}
-        error={error}
+        inputProps={{
+          min: DateUtils.getMinDateTime(),
+          step: 60, // 1 minute steps
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <Clock style={{ fontSize: '1rem' }} />
+            </InputAdornment>
+          ),
+        }}
+        error={!!error}
+        helperText={error}
         disabled={disabled}
         required
+        fullWidth
+        variant='outlined'
+        size='medium'
       />
     );
   }

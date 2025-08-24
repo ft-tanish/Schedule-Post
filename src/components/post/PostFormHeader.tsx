@@ -1,22 +1,24 @@
 import React, { memo } from 'react';
 import { MessageSquare } from 'lucide-react';
-import { UI_CONFIG, APP_CONFIG } from '@/config';
+import { Typography, Box } from '@mui/material';
+import { APP_CONFIG } from '@/config/app.config';
 
 const PostFormHeader = memo(() => {
   return (
-    <div className={UI_CONFIG.spacing.section}>
-      <h1
-        className={`${UI_CONFIG.typography.heading.primary} ${UI_CONFIG.colors.neutral[800]}`}
+    <Box sx={{ mb: 3 }}>
+      <Typography
+        variant='h4'
+        component='h1'
+        gutterBottom
+        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
-        <MessageSquare
-          className={`${UI_CONFIG.icons.xlarge} ${UI_CONFIG.colors.primary.text}`}
-        />
+        <MessageSquare style={{ fontSize: '2rem', color: 'primary.main' }} />
         {APP_CONFIG.content.headings.postForm}
-      </h1>
-      <p className={UI_CONFIG.colors.neutral[600]}>
+      </Typography>
+      <Typography variant='body1' color='text.secondary'>
         {APP_CONFIG.content.descriptions.postForm}
-      </p>
-    </div>
+      </Typography>
+    </Box>
   );
 });
 

@@ -137,16 +137,6 @@ export function PostProvider({ children }: { children: ReactNode }) {
     loadPosts();
   }, []);
 
-  // Save posts to localStorage whenever posts change
-  useEffect(() => {
-    if (!isLoading) {
-      const success = StorageUtils.savePosts(state.posts);
-      if (!success) {
-        console.error('Failed to save posts to storage');
-      }
-    }
-  }, [state.posts, isLoading]);
-
   // Memoized callbacks to prevent unnecessary re-renders
   const addPost = useCallback((content: string, scheduledTime: Date) => {
     dispatch({
@@ -171,6 +161,16 @@ export function PostProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'PUBLISH_POST', payload: post.id });
       });
   }, [scheduledPosts, currentTime]);
+
+  // Save posts to localStorage whenever posts change
+  useEffect(() => {
+    if (!isLoading) {
+      const success = StorageUtils.savePosts(state.posts);
+      if (!success) {
+        console.error('Failed to save posts to storage');
+      }
+    }
+  }, [state.posts, isLoading]);
 
   // Update current time every second
   useEffect(() => {

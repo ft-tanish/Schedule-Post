@@ -1,6 +1,7 @@
 'use client';
 
 import React, { memo, useCallback } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 import { usePost } from '@/contexts/PostContext.optimized';
 import { useFormValidation } from '@/hooks/useFormValidation';
 import { ValidationUtils } from '@/utils/validation.utils';
@@ -8,7 +9,6 @@ import PostFormHeader from './post/PostFormHeader';
 import PostContentInput from './post/PostContentInput';
 import ScheduleTimeInput from './post/ScheduleTimeInput';
 import SubmitButton from './post/SubmitButton';
-import { UI_CONFIG, APP_CONFIG } from '@/config';
 
 const PostForm = memo(() => {
   const { addPost, isLoading } = usePost();
@@ -71,19 +71,32 @@ const PostForm = memo(() => {
 
   if (isLoading) {
     return (
-      <div className={`${UI_CONFIG.layout.flex.center} h-full`}>
-        <div className={UI_CONFIG.animations.spin} />
-      </div>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
+        <CircularProgress />
+      </Box>
     );
   }
 
   return (
-    <div className={`${UI_CONFIG.layout.flex.column} h-full`}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <PostFormHeader />
 
-      <form
+      <Box
+        component='form'
         onSubmit={handleSubmit}
-        className={`${UI_CONFIG.layout.flex.column} flex-1 ${UI_CONFIG.spacing.gap.large}`}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          gap: 3,
+        }}
         noValidate
       >
         <PostContentInput
@@ -101,8 +114,8 @@ const PostForm = memo(() => {
         />
 
         <SubmitButton isValid={isValid} isSubmitting={isSubmitting} />
-      </form>
-    </div>
+      </Box>
+    </Box>
   );
 });
 
